@@ -1,4 +1,4 @@
-# dominion_simple_ai
+# Dominion Simple AI
 A very simple ai/bot for Dominion
 
 This is a simple ai/bot for the card game Dominion.  It simply plays a "greens
