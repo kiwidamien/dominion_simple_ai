@@ -224,7 +224,6 @@ if __name__ == "__main__":
     print(f"Starting a new game\n")
 
     p = Player()
-    p.report()
 
     while True:
         _ = input("\nPress Enter to take a turn...\n")

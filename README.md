@@ -21,27 +21,22 @@ and Python 3 (if you don't like that, please consider updating).
 Example of output:
 ```
 
-python dominion_simple_ai.py                                                                                                                                            ▸▸▸▸▸▸▸▹▹▹
+python dominion_simple_ai.py
+
 Starting a new game
 
-    Turns so far: 0
-    Victory points so far: 3
-    All cards: Counter({'copper': 7, 'estate': 3})
-        Hand: Counter({'copper': 4, 'estate': 1})
-        Discard: Counter()
-        Deck: Counter({'copper': 3, 'estate': 2})
 
 Press Enter to take a turn...
 
     Turns so far: 0
     Victory points so far: 3
     All cards: Counter({'copper': 7, 'estate': 3})
-        Hand: Counter({'copper': 4, 'estate': 1})
+        Hand: Counter({'copper': 5})
         Discard: Counter()
-        Deck: Counter({'copper': 3, 'estate': 2})
-Hand has buying power 4...
-(Speaking: I have 4 copper and 1 estate)
-(Speaking: for total buying power of 4)
+        Deck: Counter({'estate': 3, 'copper': 2})
+Hand has buying power 5...
+(Speaking: I have 5 copper)
+(Speaking: for total buying power of 5)
 (Speaking: I buy silver)
 
 Press Enter to take a turn...
@@ -49,9 +44,22 @@ Press Enter to take a turn...
     Turns so far: 1
     Victory points so far: 3
     All cards: Counter({'copper': 7, 'estate': 3, 'silver': 1})
-        Hand: Counter({'copper': 3, 'estate': 2})
-        Discard: Counter({'copper': 4, 'silver': 1, 'estate': 1})
+        Hand: Counter({'estate': 3, 'copper': 2})
+        Discard: Counter({'copper': 5, 'silver': 1})
         Deck: Counter()
+Hand has buying power 2...
+(Speaking: I have 3 estate and 2 copper)
+(Speaking: for total buying power of 2)
+(Speaking: I do not buy anything)
+
+Press Enter to take a turn...
+
+    Turns so far: 2
+    Victory points so far: 3
+    All cards: Counter({'copper': 7, 'estate': 3, 'silver': 1})
+        Hand: Counter({'copper': 3, 'estate': 2})
+        Discard: Counter()
+        Deck: Counter({'copper': 4, 'estate': 1, 'silver': 1})
 Hand has buying power 3...
 (Speaking: I have 3 copper and 2 estate)
 (Speaking: for total buying power of 3)
@@ -59,18 +67,20 @@ Hand has buying power 3...
 
 Press Enter to take a turn...
 
-    Turns so far: 2
+    Turns so far: 3
     Victory points so far: 3
     All cards: Counter({'copper': 7, 'estate': 3, 'silver': 2})
         Hand: Counter({'copper': 4, 'silver': 1})
-        Discard: Counter()
-        Deck: Counter({'estate': 3, 'copper': 3, 'silver': 1})
+        Discard: Counter({'copper': 3, 'estate': 2, 'silver': 1})
+        Deck: Counter({'estate': 1})
 Hand has buying power 6...
 (Speaking: I have 4 copper and 1 silver)
 (Speaking: for total buying power of 6)
 (Speaking: I buy gold)
 
 Press Enter to take a turn...
+
+
 
 
 
