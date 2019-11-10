@@ -1,7 +1,18 @@
 from enum import Enum
 from typing import Dict, List, Optional
 
-from dominion_ai.cards import Card
+from dominion_ai.cards import (
+    Card,
+    COLONY,
+    PROVINCE,
+    DUCKY,
+    ESTATE,
+    PLATINUM,
+    GOLD,
+    SILVER,
+    COPPER
+)
+from dominion_ai.utils import speak_str
 
 
 class GameStage(Enum):
@@ -11,12 +22,21 @@ class GameStage(Enum):
     early_game = 1
     late_game = 2
 
-def Game:
-    def __init__(self, available_cards: Dict[Card, Optional[int]]):
+
+class Game:
+    def __init__(self, available_cards: Dict[Card, Optional[int]],
+                 is_silent=False, has_attack_cards=False):
         self.limited_card_types = {c: amt for c, amt in available_cards.items()
                                     if amt is not None}
         self.unlimited_card_types = [c for c, amt in available_cards.items()
                                     if amt is not None]
+        if PROVINCE not in self.limited_card_types:
+            msg = f"""Dominion requires Provinces for its end condition,
+                     received {available_cards}
+                     (no providences)"""
+            raise ValueError(msg)
+        self.is_silent = is_silent
+        self.has_attack = has_attack_cards
 
     @property
     def available_cards(self) -> List[Card]:
@@ -39,6 +59,13 @@ def Game:
     def available_victory_points(self) -> List[Card]:
         available_vp = [card for card in self.available_cards if card.victory_points > 0]
         return sorted(available_vp, key=lambda card: card.victory_points, ascending=False)
+
+    @property
+    def number_of_providences_remaining(self) -> int:
+        return self.limited_card_types[PROVINCE]
+
+    def speak_str(s):
+        speak_str(s, self.is_silent)
 
 
 STD_GAME_CARDS = {

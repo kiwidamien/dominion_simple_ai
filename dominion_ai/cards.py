@@ -79,7 +79,7 @@ class Deck:
     def draw_n_more_cards(self, n_cards: int) -> sum:
         return sum([self.draw_card() for _ in range(n_cards)])
 
-    def discard_to_n_cards(self, n_cards: int -> bool:
+    def discard_to_n_cards(self, n_cards: int) -> bool:
         # We cannot end with n_cards
         if len(self.hand) < n_cards:
             return False
