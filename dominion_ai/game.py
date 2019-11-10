@@ -29,3 +29,47 @@ def Game:
             raise ValueError(msg)
         if card_to_buy in self.limited_card_types:
             self.limited_card_types[card_to_buy] -= 1
+
+    @property
+    def available_money(self) -> List[Card]:
+        available_money = [card for card in self.available_cards if card.buying_power > 0]
+        return sorted(available_money, key=lambda card: card.buying_power, ascending=False)
+
+    @property
+    def available_victory_points(self) -> List[Card]:
+        available_vp = [card for card in self.available_cards if card.victory_points > 0]
+        return sorted(available_vp, key=lambda card: card.victory_points, ascending=False)
+
+
+STD_GAME_CARDS = {
+    ESTATE: None,
+    DUCKY: None,
+    PROVINCE: None,
+    COPPER: None,
+    SILVER: None,
+    GOLD: None
+}
+
+PROSPERITY_GAME_CARDS = {
+    **STD_GAME_CARDS,
+    COLONY: None,
+    PLATINUM: None
+}
+
+def get_vp_pile_size(num_players: int) -> int:
+    if num_players == 2:
+        return 8
+    if num_palyers == 3:
+        return 12
+    return 3 * num_players
+
+def make_std_game(num_players):
+    std_game = STD_GAME_CARDS.copy()
+    std_game[PROVINCE] = get_vp_pile_size(num_players)
+    return Game(std_game)
+
+def make_prosperity_game(num_players):
+    prosp_game = PROSPERITY_GAME_CARDS.copy()
+    prosp_game[PROVINCE] = get_vp_pile_size(num_players)
+    prosp_game[COLONY] = get_vp_pile_size(num_players)
+    return Game(prosp_game)

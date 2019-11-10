@@ -12,7 +12,7 @@ class Player:
         deck."""
 
         self.game_stage = GameStage.early_game  # start the game in early stage
-        self.deck = cards.Deck()
+        self.deck = cards.Deck(player=self)
         self.turn_count = 0
         self.deck.draw_hand()  # start by drawing a hand
 
@@ -77,7 +77,7 @@ class Player:
 
     def discard_card(self) -> bool:
         return True
-    
+
     @property
     def highest_buyable_money(self):
         """Calculate the highest buyable money card"""
