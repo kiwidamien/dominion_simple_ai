@@ -29,7 +29,7 @@ class Game:
         self.limited_card_types = {c: amt for c, amt in available_cards.items()
                                     if amt is not None}
         self.unlimited_card_types = [c for c, amt in available_cards.items()
-                                    if amt is not None]
+                                    if amt is None]
         if PROVINCE not in self.limited_card_types:
             msg = f"""Dominion requires Provinces for its end condition,
                      received {available_cards}
@@ -40,7 +40,7 @@ class Game:
 
     @property
     def available_cards(self) -> List[Card]:
-        return ([c for c, amt in self.limited_card_types if amt > 0]
+        return ([c for c, amt in self.limited_card_types.items() if amt > 0]
                 + self.unlimited_card_types)
 
     def buy_card(self, card_to_buy: Card):
@@ -53,12 +53,12 @@ class Game:
     @property
     def available_money(self) -> List[Card]:
         available_money = [card for card in self.available_cards if card.buying_power > 0]
-        return sorted(available_money, key=lambda card: card.buying_power, ascending=False)
+        return sorted(available_money, key=lambda card: card.buying_power, reverse=True)
 
     @property
     def available_victory_points(self) -> List[Card]:
         available_vp = [card for card in self.available_cards if card.victory_points > 0]
-        return sorted(available_vp, key=lambda card: card.victory_points, ascending=False)
+        return sorted(available_vp, key=lambda card: card.victory_points, reverse=True)
 
     @property
     def number_of_providences_remaining(self) -> int:
@@ -83,17 +83,20 @@ PROSPERITY_GAME_CARDS = {
     PLATINUM: None
 }
 
+
 def get_vp_pile_size(num_players: int) -> int:
     if num_players == 2:
         return 8
-    if num_palyers == 3:
+    if num_players == 3:
         return 12
     return 3 * num_players
+
 
 def make_std_game(num_players):
     std_game = STD_GAME_CARDS.copy()
     std_game[PROVINCE] = get_vp_pile_size(num_players)
     return Game(std_game)
+
 
 def make_prosperity_game(num_players):
     prosp_game = PROSPERITY_GAME_CARDS.copy()

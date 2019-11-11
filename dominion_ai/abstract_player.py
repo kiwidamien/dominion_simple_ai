@@ -124,3 +124,15 @@ class Player(ABC):
         print(f"\t\tHand: {Counter([c.name for c in self.hand])}")
         print(f"\t\tDiscard: {Counter([c.name for c in self.discard])}")
         print(f"\t\tDeck: {Counter([c.name for c in self.deck])}")
+
+    def add_curse(self, where: str='discard'):
+        where_dict = {
+            'hand': self.deck.hand,
+            'discard': self.deck.discard,
+            'draw': self.deck.deck
+        }
+        try:
+            where_dict[where].append(cards.CURSE)
+        except KeyError as e:
+            print(f'Told to add curse {where}, should be one of {where_dict.keys()}')
+            raise e

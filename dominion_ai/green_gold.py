@@ -25,7 +25,8 @@ class GreenGoldPlayer(Player):
 
             # except if in the late game stage, in which case buy the highest
             # buyable victory points instead
-            if self.game_stage == GameStage.late_game:
+            if ((self.game_stage == GameStage.late_game) and
+                (self.self.highest_buyable_victory_points.victory_points > 0)):
                 bought_card = self.highest_buyable_victory_points
                 print(f"Late Stage Game, so buying victory points over money")
 

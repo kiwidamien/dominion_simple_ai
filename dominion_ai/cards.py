@@ -4,10 +4,13 @@ from typing import List
 # Define the cards in the game
 Card = namedtuple("Card", "name cost buying_power victory_points only_prosperity")
 
-# Base game money and victory point cards
+# victory point cards (base game)
+CURSE = Card(name="curse", cost=0, buying_power=0, victory_points=-1, only_prosperity=False)
 ESTATE = Card(name="estate", cost=2, buying_power=0, victory_points=1, only_prosperity=False)
 DUCKY = Card(name="duchy", cost=5, buying_power=0, victory_points=3, only_prosperity=False)
 PROVINCE = Card(name="province", cost=8, buying_power=0, victory_points=6, only_prosperity=False)
+
+# money cards (base game)
 COPPER = Card(name="copper", cost=0, buying_power=1, victory_points=0, only_prosperity=False)
 SILVER = Card(name="silver", cost=3, buying_power=2, victory_points=0, only_prosperity=False)
 GOLD = Card(name="gold", cost=6, buying_power=3, victory_points=0, only_prosperity=False)
