@@ -50,9 +50,8 @@ from typing import List
 from dominion_ai.abstract_player import Player
 
 class MenuItem(ABC):
-    def __init__(self, prompt: str, player: Player):
+    def __init__(self, prompt: str):
         self.prompt = prompt
-        self.player = player
 
     @abstractmethod
     def validate(self, choice: List[str]) -> bool:
@@ -62,65 +61,62 @@ class MenuItem(ABC):
         return self.prompt
 
     @abstractmethod
-    def action(self, choice: List[str]):
+    def action(self, choice: List[str], player: Player):
         if not self.validate(choice):
             raise ValueError(f'Invalid choice for menu item: {choice}')
 
 
 class PlayGameItem(MenuItem):
-    def __init__(self, player: Player):
-        self.prompt = 'Have bot play hand'
-        self.player = player
+    def __init__(self):
+        super().__init__('Have bot play hand')
 
     def validate(self, choice: List[str]) -> bool:
         return len(choice) == 0
 
-    def action(self, choice: List[str]):
-        super().action(choice)
-        self.player.play_hand()
+    def action(self, choice: List[str], player: Player):
+        super().action(choice, player)
+        player.play_hand()
 
 
 class AddCurseToDeck(MenuItem):
-    def __init__(self, player: Player):
-        self.prompt = 'Add curse to deck'
-        self.player = player
+    def __init__(self):
+        super().__init__('Add curse to deck')
 
     def validate(self, choice: List[str]) -> bool:
         return len(choice) == 0
 
-    def action(self, choice: List[str]):
-        super().action(choice)
-        self.player.add_curse('deck')
+    def action(self, choice: List[str], player: Player):
+        super().action(choice, player)
+        player.add_curse('deck')
 
 
 class AddCurseToHand(MenuItem):
-    def __init__(self, player:Player):
-        self.prompt = 'Add curse to hand'
-        self.player = player
+    def __init__(self):
+        super().__init__('Add curse to hand')
 
     def validate(self, choice: List[str]) -> bool:
         return len(choice) == 0
 
-    def action(self, choice: List[str]):
-        super().action(choice)
-        self.player.add_curse('hand')
+    def action(self, choice: List[str], player: Player):
+        super().action(choice, player)
+        player.add_curse('hand')
 
 
 class AddCurseToDiscard(MenuItem):
-    def __init__(self, player:Player):
-        self.prompt = 'Add curse to discard'
-        self.player = player
+    def __init__(self):
+        super().__init__('Add curse to discard')
 
     def validate(self, choice: List[str]) -> bool:
         return len(choice) == 0
 
-    def action(self, choice: List[str]):
-        super().action(choice)
-        self.player.add_curse('discard')
+    def action(self, choice: List[str], player: Player):
+        super().action(choice, player)
+        player.add_curse('discard')
+
 
 class DiscardToNumber(MenuItem):
-    def __init__(self, player: Player):
-        super().__init__(' [N] Discard to N cards', player)
+    def __init__(self):
+        super().__init__(' [N] Discard to N cards')
 
     def validate(self, choice: List[str]) -> bool:
         if len(choice) != 1:
@@ -138,14 +134,14 @@ class DiscardToNumber(MenuItem):
             return False
         return True
 
-    def action(self, choice: List[str]):
-        super().action(choice)
+    def action(self, choice: List[str], player: Player):
+        super().action(choice, player)
         discard_to = int(choice[0])
-        self.player.deck.discard_to_n_cards(discard_to)
+        player.deck.discard_to_n_cards(discard_to)
 
 
 class DrawToNumber(MenuItem):
-    def __init__(self, player: Player):
+    def __init__(self):
         super().__init__(' [N] Draw to N cards')
 
     def validate(self, choice: List[str]) -> bool:
@@ -163,10 +159,10 @@ class DrawToNumber(MenuItem):
             return False
         return True
 
-    def action(self, choice: List[str]):
-        super().action(choice)
+    def action(self, choice: List[str], player: Player):
+        super().action(choice, player)
         add_until = int(choice[0])
-        self.player.deck.draw_until_n_cards_in_hand(add_until)
+        player.deck.draw_until_n_cards_in_hand(add_until)
 
-DRAW_DISCARD_LIST = [DrawToNumber, DiscardToNumber]
-CURSE_LIST = [AddCurseToDeck, AddCurseToHand, AddCurseToDiscard]
+DRAW_DISCARD_MENUITEMS= [DrawToNumber(), DiscardToNumber()]
+CURSE_MENUITEM_MENUITEMS = [AddCurseToDeck(), AddCurseToHand(), AddCurseToDiscard()]
