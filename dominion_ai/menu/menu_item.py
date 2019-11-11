@@ -116,7 +116,51 @@ class AddCurseToDiscard(MenuItem):
 
 class DiscardToNumber(MenuItem):
     def __init__(self, player: Player):
-        super().__init__(' [N] Discard to N cards')
+        super().__init__(' [N] Discard to N cards', player)
 
-    def validate(self, choice: List[str]):
+    def validate(self, choice: List[str]) -> bool:
+        if len(choice) != 1:
+            print(f'Can only accept one additional argument, recieved {len(choice)}')
+            return False
+        the_choice = choice[0]
+        try:
+            the_choice = int(the_choice)
+        except ValueError:
+            print(f'Could not convert {the_choice} to an integer')
+            return False
+
+        if the_choice < 0:
+            print(f'Cannot discard to {the_choice} cards!')
+            return False
         return True
+    
+    def action(self, choice: List[str]):
+        super().action(choice)
+        discard_to = int(choice[0])
+        self.player.deck.discard_to_n_cards(discard_to)
+
+
+class DrawToNumber(MenuItem):
+    def __init__(self, player: Player):
+        super().__init__(' [N] Draw to N cards')
+    
+    def validate(self, choice: List[str]) -> bool:
+        if len(choice) != 1:
+            print(f'Can only accept one additional argument, recieved {len(choice)}')
+            return False
+        the_choice = choice[0]
+        try:
+            the_choice = int(the_choice)
+        except ValueError:
+            print(f'Could not convert {the_choice} to an integer')
+            return False
+        if the_choice < 0:
+            print(f'Cannot add a negative number of cards! Told to add {the_choice}')
+            return False
+        return True
+
+    def action(self, choice: List[str]):
+        super().action(choice)
+        add_until = int(choice[0])
+        self.player.deck.draw_until_n_cards_in_hand(add_until)
+        

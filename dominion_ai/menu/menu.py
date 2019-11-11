@@ -27,19 +27,23 @@ class Menu:
 
         opt, *args = choice.split()
         try:
-            opt = int(float(opt))
-        except:
-            print(f'Invalid choice {opt}')
+            menu_item_chosen = self.get_menu_item(choice)
+        except ValueError:
+            print(f'Cannot convert {menu_item_chosen} to an integer')
             return False
-
-        index = opt - 1
-        try:
-            menu_item_chosen = self.menu_items[index]
         except IndexError:
-            print(f"Menu option {opt} doesn't correspond to a valid number")
+            print(f'Option {menu_item_chosen} is not a valid choice')
+            return False
         return menu_item_chosen.validate(args)
 
     def get_menu_item(self, choice: str) -> Optional[MenuItem]:
+        choice = choice.strip()
+        if choice == '':
+            return self.default
+        option, *args = choice.split()
+        # allows us to convert '1' and '1.' to 'option 1'
+        index = int(float(option)) - 1
+        return self.menu_items[index]
 
     def do_round(self):
         if self.header_prompt:
