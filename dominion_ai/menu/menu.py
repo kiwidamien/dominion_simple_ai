@@ -1,6 +1,11 @@
 from typing import List, Optional
 
-from dominion_ai.menu.menu_item import MenuItem, PlayGameItem
+from dominion_ai.menu.menu_item import (
+    MenuItem,
+    PlayGameItem,
+    DRAW_DISCARD_LIST,
+    CURSE_LIST
+)
 
 
 class Menu:
@@ -9,16 +14,23 @@ class Menu:
         self.menu_items = menu_items
         self.header_prompt = header_prompt
         self.allowed_responses = [''] + [str(index + 1) for index in range(len(menu_items))]
-        self.default = PLAY_MOVE
+        self.default = PlayGameItem
 
     def __str__(self, n_tabs:int = 1):
         sep = '\t' * n_tabs
-        choice_str = [f'{sep}{index+1:2d}. {menu_item}' for index, menu_item
+        choice_str = [f'{sep}{index+1:2d}. {menu_item.prompt}' for index, menu_item
                         in enumerate(self.menu_items)]
         return '\n'.join(choice_str)
 
     def __repr__(self):
         return f'Menu object with {len(self.menu_items)} choices'
+
+    def _parse_choice(self, choice):
+        choice = choice.strip()
+        if choice=='':
+            return 0, []
+        option, *args = choice.split()
+        return option, args
 
     def validate(self, choice: str) -> bool:
         choice = choice.strip()
@@ -37,11 +49,9 @@ class Menu:
         return menu_item_chosen.validate(args)
 
     def get_menu_item(self, choice: str) -> Optional[MenuItem]:
-        choice = choice.strip()
-        if choice == '':
+        option, _ = self._parse_choice(choice)
+        if option==0:
             return self.default
-        option, *args = choice.split()
-        # allows us to convert '1' and '1.' to 'option 1'
         index = int(float(option)) - 1
         return self.menu_items[index]
 
@@ -55,6 +65,16 @@ class Menu:
             print(self)
         choice = input(end_prompt)
         if not self.validate(choice):
+            print("""
+            Error - invalid choice
+            """)
             self.do_round()
         else:
-            self.
+            menu_item_chosen = self.get_menu_item(choice)
+            _, args = self._parse_choice(choice)
+            menu_item_chosen.action(args)
+
+
+DEFAULT_MENU = Menu([])
+DRAW_DISCARD_MENU = Menu(DRAW_DISCARD_LIST)
+DRAW_DISCARD_CURSE_MENT = Menu(DRAW_DISCARD_LIST + CURSE_LIST)

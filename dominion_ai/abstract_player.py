@@ -12,11 +12,10 @@ from collections import Counter
 from typing import List, Optional
 
 import dominion_ai.cards as cards
-from dominion_ai.game import (
-    GameStage
-)
+
 from dominion_ai.utils import (
-    speak_str
+    speak_str,
+    GameStage
 )
 
 

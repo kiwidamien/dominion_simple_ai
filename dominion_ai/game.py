@@ -13,19 +13,13 @@ from dominion_ai.cards import (
     COPPER
 )
 from dominion_ai.utils import speak_str
-
-
-class GameStage(Enum):
-    """Game Stage is used to affect behavior depending on where in the game the
-    player is"""
-
-    early_game = 1
-    late_game = 2
+from dominion_ai.menu.menu import Menu, DEFAULT_MENU
 
 
 class Game:
     def __init__(self, available_cards: Dict[Card, Optional[int]],
-                 is_silent=False, has_attack_cards=False):
+                 menu: Menu=DEFAULT_MENU,
+                 is_silent: bool=False, has_attack_cards: bool=False):
         self.limited_card_types = {c: amt for c, amt in available_cards.items()
                                     if amt is not None}
         self.unlimited_card_types = [c for c, amt in available_cards.items()

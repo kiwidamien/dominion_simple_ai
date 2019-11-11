@@ -1,3 +1,4 @@
+from enum import Enum
 import subprocess
 
 
@@ -12,3 +13,11 @@ def speak_str(s, is_silent=False):
     print(f'({prefix}: {s})')
     if not is_silent:
         subprocess.call(torun, shell=True)
+
+
+class GameStage(Enum):
+    """Game Stage is used to affect behavior depending on where in the game the
+    player is"""
+
+    early_game = 1
+    late_game = 2
