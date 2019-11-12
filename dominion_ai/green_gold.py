@@ -48,6 +48,7 @@ class GreenGoldPlayer(Player):
 
                 # gain the card to the discard pile
                 self.deck.discard.append(bought_card)
+                self.game.buy_card(bought_card)
             else:
                 s = f"I do not buy anything"
                 self.game.speak_str(s)
