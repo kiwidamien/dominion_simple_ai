@@ -32,6 +32,9 @@ class Game:
         self.is_silent = is_silent
         self.has_attack = has_attack_cards
 
+    def set_is_silent(self, silence_flag: bool):
+        self.is_silent = silence_flag
+
     @property
     def available_cards(self) -> List[Card]:
         return ([c for c, amt in self.limited_card_types.items() if amt > 0]
@@ -58,7 +61,7 @@ class Game:
     def number_of_providences_remaining(self) -> int:
         return self.limited_card_types[PROVINCE]
 
-    def speak_str(s):
+    def speak_str(self, s):
         speak_str(s, self.is_silent)
 
 
@@ -86,14 +89,14 @@ def get_vp_pile_size(num_players: int) -> int:
     return 3 * num_players
 
 
-def make_std_game(num_players):
+def make_std_game(num_players, is_silent=False):
     std_game = STD_GAME_CARDS.copy()
     std_game[PROVINCE] = get_vp_pile_size(num_players)
-    return Game(std_game)
+    return Game(std_game, is_silent=is_silent)
 
 
-def make_prosperity_game(num_players):
+def make_prosperity_game(num_players, is_silent=False):
     prosp_game = PROSPERITY_GAME_CARDS.copy()
     prosp_game[PROVINCE] = get_vp_pile_size(num_players)
     prosp_game[COLONY] = get_vp_pile_size(num_players)
-    return Game(prosp_game)
+    return Game(prosp_game, is_silent=is_silent)

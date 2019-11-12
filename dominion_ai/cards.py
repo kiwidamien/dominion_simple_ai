@@ -1,4 +1,5 @@
 from collections import namedtuple
+import random
 from typing import List
 
 # Define the cards in the game
@@ -25,7 +26,7 @@ class Deck:
         self.deck = 3*[ESTATE] + 7*[COPPER]
         self.discard = []
         self.hand = []
-        self.shuffle()
+        random.shuffle(self.deck)
         self.player = player
 
     def draw_card(self) -> bool:
@@ -41,6 +42,10 @@ class Deck:
 
     def discard_card(self) -> bool:
         return self.player.discard_card()
+
+    def discard_hand(self):
+        self.discard = self.discard + self.hand
+        self.hand = []
 
     @property
     def all_cards(self) -> List[Card]:

@@ -62,6 +62,10 @@ class Player(ABC):
         """Gets the amount of money in hand (value)"""
         return self.deck.hand_buying_power
 
+    @property
+    def all_cards(self):
+        return self.deck.all_cards
+
     @abstractmethod
     def buy_card(self) -> int:
         """Buys card according to strategy, returns number of cards bought"""
@@ -87,7 +91,7 @@ class Player(ABC):
         """Calculate the highest buyable victory points card"""
         bankroll = self.hand_buying_power
         # This list is sorted by VP
-        affordable_vp = [card for card in self.game.available_vp
+        affordable_vp = [card for card in self.game.available_victory_points
                          if card.cost <= bankroll]
         if len(affordable_vp) > 0:
             return affordable_vp[0]
@@ -98,7 +102,7 @@ class Player(ABC):
         otherwise early game stage"""
 
         provinces_owned = len(
-            [card for card in self.all_cards if card == province]
+            [card for card in self.all_cards if card == cards.PROVINCE]
         )
 
         if provinces_owned < 3:
@@ -116,13 +120,16 @@ class Player(ABC):
         self.set_game_stage()
         self.turn_count += 1
 
+    def draw_hand(self):
+        self.deck.draw_hand()
+    
     def report(self):
         print(f"\tTurns so far: {self.turn_count}")
         print(f"\tVictory points so far: {self.victory_points}")
         print(f"\tAll cards: {Counter([c.name for c in self.all_cards])}")
         print(f"\t\tHand: {Counter([c.name for c in self.hand])}")
-        print(f"\t\tDiscard: {Counter([c.name for c in self.discard])}")
-        print(f"\t\tDeck: {Counter([c.name for c in self.deck])}")
+        print(f"\t\tDiscard: {Counter([c.name for c in self.deck.discard])}")
+        print(f"\t\tDeck: {Counter([c.name for c in self.deck.deck])}")
 
     def add_curse(self, where: str='discard'):
         where_dict = {

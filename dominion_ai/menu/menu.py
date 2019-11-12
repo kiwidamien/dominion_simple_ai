@@ -74,6 +74,9 @@ class Menu:
             _, args = self._parse_choice(choice)
             menu_item_chosen.action(args)
 
+    @property
+    def num_choices(self):
+        return len(self.allowed_responses)
 
 DEFAULT_MENU = Menu([])
 DRAW_DISCARD_MENU = Menu(DRAW_DISCARD_MENUITEMS)

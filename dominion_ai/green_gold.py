@@ -1,5 +1,5 @@
 from dominion_ai.abstract_player import Player
-from dominion_ai.game import GameStage
+from dominion_ai.utils import GameStage
 import dominion_ai.cards as cards
 
 
@@ -41,21 +41,20 @@ class GreenGoldPlayer(Player):
                 self.game.speak_str(s)
 
                 # gain the card to the discard pile
-                self.discard.append(bought_card)
+                self.deck.discard.append(bought_card)
             else:
                 s = f"I do not buy anything"
                 self.game.speak_str(s)
 
             # the whole hand is used up buying the card, discard the hand
-            for card in self.hand:
-                self.discard.append(card)
+            self.deck.discard_hand()
 
     def discard_card(self):
         if len(self.deck.hand) == 0:
             return False
         # be willing to discard of expensive cards that don't contribute to buying power
-        self.hand = sorted(self.deck.hand, key=lambda card: (-card.buying_power, card.victory_points))
+        self.deck.hand = sorted(self.deck.hand, key=lambda card: (-card.buying_power, card.victory_points))
         my_card = self.deck.hand.pop()
         self.deck.discard.append(my_card)
-        self.game.speak_str(f'Discarded {my_card}')
+        self.game.speak_str(f'Discarded {my_card.name}')
         return True
