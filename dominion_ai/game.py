@@ -13,7 +13,12 @@ from dominion_ai.cards import (
     COPPER
 )
 from dominion_ai.utils import speak_str
-from dominion_ai.menu.menu import Menu, DEFAULT_MENU
+from dominion_ai.menu import (
+    Menu,
+    DEFAULT_MENU,
+    DRAW_DISCARD_MENU,
+    DRAW_DISCARD_CURSE_MENU
+)
 
 
 class Game:
@@ -31,6 +36,7 @@ class Game:
             raise ValueError(msg)
         self.is_silent = is_silent
         self.has_attack = has_attack_cards
+        self.menu = menu
 
     def set_is_silent(self, silence_flag: bool):
         self.is_silent = silence_flag
@@ -89,14 +95,25 @@ def get_vp_pile_size(num_players: int) -> int:
     return 3 * num_players
 
 
-def make_std_game(num_players, is_silent=False):
+def get_menu(has_curses, has_discard):
+    if has_curses:
+        return DRAW_DISCARD_CURSE_MENU
+    if has_discard:
+        return DRAW_DISCARD_MENU
+    return DEFAULT_MENU
+
+
+def make_std_game(num_players, is_silent=False, has_curses=False,
+                  has_discard=False):
     std_game = STD_GAME_CARDS.copy()
     std_game[PROVINCE] = get_vp_pile_size(num_players)
-    return Game(std_game, is_silent=is_silent)
+    return Game(std_game, is_silent=is_silent,
+                menu=get_menu(has_curses, has_discard))
 
 
 def make_prosperity_game(num_players, is_silent=False):
     prosp_game = PROSPERITY_GAME_CARDS.copy()
     prosp_game[PROVINCE] = get_vp_pile_size(num_players)
     prosp_game[COLONY] = get_vp_pile_size(num_players)
-    return Game(prosp_game, is_silent=is_silent)
+    return Game(prosp_game, is_silent=is_silent,
+                menu=get_menu(has_curses, has_discard))
