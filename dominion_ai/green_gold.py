@@ -13,9 +13,14 @@ class GreenGoldPlayer(Player):
             the hand to buy a card (or not), discard the rest of the hand."""
 
             print(f"Hand has buying power {self.hand_buying_power}...")
+            bought_card = None
 
-            # if ever (game stage agnostic) can buy a province or colony, always buy it
-            if ((self.highest_buyable_victory_points == cards.PROVINCE) or
+            # by Platinium, if possible
+            # otherwise (game stage agnostic) can buy a province or colony, always buy it
+            if ((self.highest_buyable_money == cards.PLATINUM) and
+                (self.game_stage == GameStage.early_game)):
+                bought_card = cards.PLATINUM
+            elif ((self.highest_buyable_victory_points == cards.PROVINCE) or
                 (self.highest_buyable_victory_points == cards.COLONY)):
                 bought_card = self.highest_buyable_victory_points
             else:
@@ -26,7 +31,8 @@ class GreenGoldPlayer(Player):
             # except if in the late game stage, in which case buy the highest
             # buyable victory points instead
             if ((self.game_stage == GameStage.late_game) and
-                (self.self.highest_buyable_victory_points.victory_points > 0)):
+                (self.highest_buyable_victory_points) and
+                (self.highest_buyable_victory_points.victory_points > 0)):
                 bought_card = self.highest_buyable_victory_points
                 print(f"Late Stage Game, so buying victory points over money")
 

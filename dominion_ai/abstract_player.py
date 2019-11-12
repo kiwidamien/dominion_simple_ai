@@ -20,7 +20,7 @@ from dominion_ai.utils import (
 
 
 class Player(ABC):
-    def __init__(self, game):
+    def __init__(self, game, late_game_transition=3):
         """Start a player off with the default starting deck, an empty hand,
         and an empty discard pile.  Set the game stage to 'early_game'.
         Initialize a turn counter.  Draw a random starting hand from the
@@ -30,6 +30,7 @@ class Player(ABC):
         self.deck = cards.Deck(player=self)
         self.game = game
         self.turn_count = 0
+        self.late_game_transition = late_game_transition
         self.deck.draw_hand()  # start by drawing a hand
 
     def speak_hand(self):
@@ -45,7 +46,7 @@ class Player(ABC):
             [str(nac[1]) + " " + str(nac[0]) for nac in names_and_counts]
         )
 
-        speak_str(s)
+        self.game.speak_str(s)
 
     @property
     def hand(self) -> List[cards.Card]:
@@ -101,16 +102,19 @@ class Player(ABC):
         """If the bot has 3 or more provinces, switch to late game stage,
         otherwise early game stage"""
 
+        old_state = self.game_stage
+
         provinces_owned = len(
             [card for card in self.all_cards if card == cards.PROVINCE]
         )
 
-        if provinces_owned < 3:
+        if provinces_owned < self.late_game_transition:
             self.game_stage = GameStage.early_game
         else:
             self.game_stage = GameStage.late_game
+        if self.game_stage != old_state:
             s = f"Game Stage changed to {self.game_stage}"
-            speak_str(s)
+            self.game.speak_str(s)
 
     def play_hand(self):
         """Play a hand: buy a card, re-evaluate the game stage, increment turn
@@ -122,7 +126,7 @@ class Player(ABC):
 
     def draw_hand(self):
         self.deck.draw_hand()
-    
+
     def report(self):
         print(f"\tTurns so far: {self.turn_count}")
         print(f"\tVictory points so far: {self.victory_points}")

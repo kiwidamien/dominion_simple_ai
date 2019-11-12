@@ -61,7 +61,7 @@ class Deck:
 
     @property
     def victory_points(self) -> int:
-        return sum([c.victory_points for c in self.hand])
+        return sum([c.victory_points for c in self.all_cards])
 
     def draw_hand(self, n_cards: int=5) -> bool:
         """Draws a new hand of n_cards.
