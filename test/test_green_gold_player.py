@@ -3,6 +3,7 @@ import pytest
 from dominion_ai.green_gold import GreenGoldPlayer
 import dominion_ai.game as game
 
+
 def test_can_make_player():
     the_game = game.make_std_game(4)
     gg = GreenGoldPlayer(the_game)
