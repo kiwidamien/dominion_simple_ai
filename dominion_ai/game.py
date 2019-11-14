@@ -121,7 +121,8 @@ def make_std_game(num_players, is_silent=False, has_curses=False,
                 menu=get_menu(has_curses, has_discard))
 
 
-def make_prosperity_game(num_players, is_silent=False):
+def make_prosperity_game(num_players, is_silent=False, has_curses=False,
+                         has_discard=False):
     prosp_game = PROSPERITY_GAME_CARDS.copy()
     prosp_game[PROVINCE] = get_vp_pile_size(num_players)
     prosp_game[COLONY] = get_vp_pile_size(num_players)
