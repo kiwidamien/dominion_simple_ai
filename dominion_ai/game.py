@@ -13,6 +13,7 @@ from dominion_ai.cards import (
     COPPER
 )
 from dominion_ai.utils import speak_str
+from dominion_ai.abstract_player import Player
 from dominion_ai.menu import (
     Menu,
     DEFAULT_MENU,
@@ -69,6 +70,15 @@ class Game:
 
     def speak_str(self, s):
         speak_str(s, self.is_silent)
+
+    def _do_round(self, player:Player):
+        self.menu.do_round(player)
+
+    def play_game(self, player: Player):
+        while True:
+            player.report()
+            self._do_round(player)
+            player.draw_hand()
 
 
 STD_GAME_CARDS = {

@@ -14,12 +14,13 @@ class Menu:
         self.menu_items = menu_items
         self.header_prompt = header_prompt
         self.allowed_responses = [''] + [str(index + 1) for index in range(len(menu_items))]
-        self.default = PlayGameItem
+        self.default = PlayGameItem()
 
     def __str__(self, n_tabs:int = 1):
         sep = '\t' * n_tabs
         choice_str = [f'{sep}{index+1:2d}. {menu_item.prompt}' for index, menu_item
-                        in enumerate(self.menu_items)]
+                        in enumerate(self.menu_items)] + \
+                     [f'{sep} -or- 0. (or Enter) to play hand']
         return '\n'.join(choice_str)
 
     def __repr__(self):
@@ -41,10 +42,10 @@ class Menu:
         try:
             menu_item_chosen = self.get_menu_item(choice)
         except ValueError:
-            print(f'Cannot convert {menu_item_chosen} to an integer')
+            print(f'Cannot convert {opt} to an integer')
             return False
         except IndexError:
-            print(f'Option {menu_item_chosen} is not a valid choice')
+            print(f'Option {opt} is not a valid choice')
             return False
         return menu_item_chosen.validate(args)
 
@@ -55,10 +56,10 @@ class Menu:
         index = int(float(option)) - 1
         return self.menu_items[index]
 
-    def do_round(self):
+    def do_round(self, player):
         if self.header_prompt:
             print(self.header_prompt)
-        if len(self.menu) == 0:
+        if len(self.menu_items) == 0:
             end_prompt = "\nPress Enter to take a turn...\n"
         else:
             end_prompt = "Make a choice, or press Enter to move to the next phase"
@@ -68,11 +69,11 @@ class Menu:
             print("""
             Error - invalid choice
             """)
-            self.do_round()
+            self.do_round(player)
         else:
             menu_item_chosen = self.get_menu_item(choice)
             _, args = self._parse_choice(choice)
-            menu_item_chosen.action(args)
+            menu_item_chosen.action(args, player)
 
     @property
     def num_choices(self):
