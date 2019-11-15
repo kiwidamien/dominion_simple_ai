@@ -15,20 +15,8 @@ def speak_str(s):
     subprocess.call(torun, shell=True)
 
 
-# Define the cards in the game
-Card = namedtuple("Card", "name cost buying_power victory_points")
 
-# Base game money and victory point cards
-estate = Card(name="estate", cost=2, buying_power=0, victory_points=1)
-duchy = Card(name="duchy", cost=5, buying_power=0, victory_points=3)
-province = Card(name="province", cost=8, buying_power=0, victory_points=6)
-copper = Card(name="copper", cost=0, buying_power=1, victory_points=0)
-silver = Card(name="silver", cost=3, buying_power=2, victory_points=0)
-gold = Card(name="gold", cost=6, buying_power=3, victory_points=0)
 
-# For playing with the Prosperity expansion, add colony and platinum
-colony = Card(name="colony", cost=11, buying_power=0, victory_points=10)
-platinum = Card(name="platinum", cost=9, buying_power=5, victory_points=0)
 
 
 class GameStage(Enum):

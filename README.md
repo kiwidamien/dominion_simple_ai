@@ -9,16 +9,24 @@ expensive victory point cards.
 
 ## How to use
 
+### Older version
+
 - Download this repo (or just the `dominion_simple_ai.py` file)
 - Open Terminal, and `cd` to the directory with `dominion_simple_ai.py`
 - Run `python dominion_simple_ai.py`
+
+### Newer version
+
+- Run `pip install fire`
+- Run `pip install git+https://github.com/https://github.com/danwiesenthal/dominion_simple_ai`
+- Run `dominion_bot` from the command line (anywhere)
+
 
 This is designed to run on macOS (if you don't like that, you can modify the
 speak_str() function to not use the macOS `say` command for Text to Speech),
 and Python 3 (if you don't like that, please consider updating).
 
-
-Example of output:
+### Example of output:
 ```
 
 python dominion_simple_ai.py
@@ -80,8 +88,16 @@ Hand has buying power 6...
 
 Press Enter to take a turn...
 
-
-
-
-
 ```
+
+### Optional flags
+
+You can run the `dominion_bot` with various flags to change how the game is played.
+
+| Flag | Meaning |
+| --- | --- |
+| `--help` | Shows a summary of flags, then exits |
+| `--n_players=N` | Sets the victory point cards to the number for `N` players |
+| `--prosperity` | Bot can buy colony (VP) and platinum (money) |
+| `--is_silent` | Disables speech |
+| `--late_game=N` | Bot changes strategy once it holds `N` provinces (defaults to 3) |
