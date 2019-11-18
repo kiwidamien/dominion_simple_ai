@@ -16,6 +16,7 @@ setup_info = {
     'long_description_content_type': 'text/markdown',
     'packages': setuptools.find_packages(),
     'python_requires': '>=3.7',
+    'install_requires': ['fire'],
     'entry_points':{
         'console_scripts': [
             'dominion_bot=dominion_ai.dominion_bot:main',
