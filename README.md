@@ -17,7 +17,6 @@ expensive victory point cards.
 
 ### Newer version
 
-- Run `pip install fire`
 - Run `pip install git+https://github.com/https://github.com/danwiesenthal/dominion_simple_ai`
 - Run `dominion_bot` from the command line (anywhere)
 
